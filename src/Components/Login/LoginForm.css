@@ -44,7 +44,7 @@ body {
 }
 
 /* Login heading */
-.wrapper h1 {
+.form-title {
     font-size: 45px;
     margin-bottom: 15px;
     font-weight: 500;
@@ -67,6 +67,7 @@ body {
     border-bottom: 1px solid #cccccc;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 30px; /* Added border-radius for oval shape */
 }
 
 /* Input focus effect with a glowing border */

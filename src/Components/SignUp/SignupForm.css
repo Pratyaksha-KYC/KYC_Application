@@ -25,29 +25,30 @@ body {
   }
 }
   
-  .registration-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 20px;
-  }
-  
-  .form-wrapper {
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
-    width: 100%;
-  }
+/* Card wrapper for the Singup form */
+.wrapper {
+  width: 500px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 30px 30px 50px;
+  box-shadow: 0px 15px 50px rgba(0, 0, 0, 0.15);
+  position: relative;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Subtle hover effect to elevate the card */
+.wrapper:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.25);
+}
+
   
   .form-title {
-    text-align: center;
+    font-size: 45px;
+    margin-bottom: 15px;
+    font-weight: 500;
     color: #333;
-    margin-bottom: 30px;
-    font-size: 24px;
-    font-weight: 600;
   }
   
 /* Breadcrumb Navigation Styling */
@@ -116,21 +117,32 @@ body {
   }
   
   .registration-form .form-group input,
-  .registration-form .form-group select {
-    width: 100%;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.3s ease;
-  }
+.registration-form .form-group select {
+  width: 100%;
+  padding: 10px 10px 10px 35px;
+  font-size: 16px;
+  color: #333;
+  border: none;
+  border-bottom: 1px solid #cccccc;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 30px; /* Added border-radius for oval shape */
+}
   
   .registration-form .form-group input:focus,
   .registration-form .form-group select:focus {
     border-color: #0074d9;
   }
   
+  /* Input field icons */
+  .registration-form .form-group .username-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0074d9;
+    font-size: 16px;
+}
   .phone-input {
     display: flex;
   }

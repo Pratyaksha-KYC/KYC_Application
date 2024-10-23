@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import './SingupForm.css'; // Link to the CSS
+import { FaUser, FaLock } from "react-icons/fa";
+import './SignupForm.css'; // Link to the CSS
 
-const SingupForm = () => {
+const SignupForm = () => {
   const [activeStep, setActiveStep] = useState(1); // Default to the first step
 
   const renderFormContent  = () => {
@@ -10,10 +11,12 @@ const SingupForm = () => {
         return (
           <div>
             <div className="form-group">
-              <input type="text" placeholder="Full Name" />
+              <input type="text" placeholder="First Name" />
+              <FaUser className="username-icon" />
             </div>
             <div className="form-group">
-              <input type="text" placeholder="Username" />
+              <input type="text" placeholder="Last Name" />
+              <FaUser className="username-icon" />
             </div>
             <div className="form-group">
               <input type="email" placeholder="Email Address" />
@@ -57,9 +60,9 @@ const SingupForm = () => {
   };
 
   return (
-    <div className="registration-container">
-      <div className="form-wrapper">
-        <h2 className="form-title">Account Registration</h2>
+
+      <div className="wrapper">
+        <h1 className="form-title">Sing Up</h1>
         
         {/* Breadcrumb Navigation */}
         <div className="breadcrumb-nav">
@@ -89,8 +92,7 @@ const SingupForm = () => {
           <button type="submit" className="submit-btn">Save & Continue</button>
         </form>
       </div>
-    </div>
   );
 };
 
-export default SingupForm;
+export default SignupForm;
