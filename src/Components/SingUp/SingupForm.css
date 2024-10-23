@@ -1,0 +1,160 @@
+/* Background gradient with smooth transitions */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #00c9ff, #92fe9d, #ffcf71, #7fdbff, #0074d9, #2ecc40, #ff851b);
+  background-size: 400% 400%;
+  animation: gradientAnimation 30s ease infinite;
+}
+
+/* Gradient animation speed for a smoother visual experience */
+@keyframes gradientAnimation {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
+  
+  .registration-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+  }
+  
+  .form-wrapper {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .form-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+/* Breadcrumb Navigation Styling */
+.breadcrumb-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.breadcrumb {
+  flex: 1;
+  padding: 12px 25px;
+  font-size: 14px;
+  color: #999;
+  background-color: #f1f1f1;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 30px;
+  margin-right: 22px;
+  position: relative;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb.active {
+  background-color: #0074d9;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.breadcrumb:last-child {
+  margin-right: 0;
+}
+
+/* Adjusted Arrow Alignment */
+.breadcrumb::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -19px; /* Adjust space between arrows */
+  border-left: 15px solid #f1f1f1;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+}
+
+.breadcrumb.active::after {
+  border-left: 15px solid #0074d9;
+}
+
+.breadcrumb.disabled {
+  background-color: #ddd;
+  color: #bbb;
+  pointer-events: none;
+}
+
+/* Remove Arrow from Last Breadcrumb */
+.breadcrumb:last-child::after {
+  display: none;
+}
+
+  
+  .registration-form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .registration-form .form-group input,
+  .registration-form .form-group select {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .registration-form .form-group input:focus,
+  .registration-form .form-group select:focus {
+    border-color: #0074d9;
+  }
+  
+  .phone-input {
+    display: flex;
+  }
+  
+  .phone-input select {
+    width: 30%;
+    margin-right: 10px;
+    padding: 15px;
+  }
+  
+  /* Button Styling */
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #001f3f;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+    background-color: #0074d9;
+  }
+  
