@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaUser, FaLock } from "react-icons/fa";
-import './SignupForm.css'; // Link to the CSS
+import './SignupForm.css'; 
 
 const SignupForm = () => {
   const [activeStep, setActiveStep] = useState(1); // Default to the first step
@@ -16,7 +16,6 @@ const SignupForm = () => {
             </div>
             <div className="form-group">
               <input type="text" placeholder="Last Name" />
-              <FaUser className="username-icon" />
             </div>
             <div className="form-group">
               <input type="email" placeholder="Email Address" />
