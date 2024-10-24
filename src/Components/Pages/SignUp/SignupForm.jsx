@@ -10,21 +10,23 @@ const SignupForm = () => {
       case 1:
         return (
           <div>
+            <div className="input-pair">
             <div className="form-group">
-              <input type="text" placeholder="First Name" />
+              <input type="text" placeholder="First Name" required/>
               <FaUser className="username-icon" />
             </div>
             <div className="form-group">
-              <input type="text" placeholder="Last Name" />
+              <input type="text" placeholder="Last Name" required/>
+            </div>
             </div>
             <div className="form-group">
-              <input type="email" placeholder="Email Address" />
+              <input type="email" placeholder="Email Address" required />
             </div>
             <div className="form-group phone-input">
               <select>
                 <option>+123</option>
               </select>
-              <input type="text" placeholder="Phone Number" />
+              <input type="text" placeholder="Phone Number" required/>
             </div>
           </div>
         );
@@ -32,13 +34,13 @@ const SignupForm = () => {
         return (
           <div>
             <div className="form-group">
-              <input type="text" placeholder="Street Address" />
+              <input type="text" placeholder="Street Address" required/>
             </div>
             <div className="form-group">
-              <input type="text" placeholder="City" />
+              <input type="text" placeholder="City" required/>
             </div>
             <div className="form-group">
-              <input type="text" placeholder="Postal Code" />
+              <input type="text" placeholder="Postal Code" required/>
             </div>
           </div>
         );
@@ -46,10 +48,10 @@ const SignupForm = () => {
         return (
           <div>
             <div className="form-group">
-              <input type="password" placeholder="Password" />
+              <input type="password" placeholder="Password" required/>
             </div>
             <div className="form-group">
-              <input type="password" placeholder="Confirm Password" />
+              <input type="password" placeholder="Confirm Password" required/>
             </div>
           </div>
         );
@@ -60,7 +62,7 @@ const SignupForm = () => {
 
   return (
 
-      <div className="wrapper">
+      <div className="wrapper-signup">
         <h1 className="form-title">Sing Up</h1>
         
         {/* Breadcrumb Navigation */}

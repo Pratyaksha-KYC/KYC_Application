@@ -1,10 +1,11 @@
 import React from "react";
 import './LoginForm.css';
+import { Link } from 'react-router-dom';
 import { FaUser, FaLock } from "react-icons/fa";
 
 const LoginForm = () => {
     return (
-        <div className="wrapper">
+        <div className="wrapper-login">
             <form action="">
                 <h1 className="form-title">Login</h1>
                 <div className="input-box">
@@ -26,7 +27,7 @@ const LoginForm = () => {
                 <button type="submit">Login</button>
 
                 <div className="register-link">
-                    <p>Don't have an account? <a href="#">Register</a></p>
+                    <p>Don't have an account? <Link to="/signup">Register</Link></p>
                 </div>
             </form>
         </div>

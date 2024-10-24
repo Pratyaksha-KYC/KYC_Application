@@ -25,8 +25,8 @@ body {
   }
 }
   
-/* Card wrapper for the Singup form */
-.wrapper {
+/* Card wrapper-signup for the Singup form */
+.wrapper-signup {
   width: 500px;
   background-color: #ffffff;
   border-radius: 20px;
@@ -38,7 +38,7 @@ body {
 }
 
 /* Subtle hover effect to elevate the card */
-.wrapper:hover {
+.wrapper-signup:hover {
   transform: translateY(-5px);
   box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.25);
 }
@@ -132,13 +132,14 @@ body {
   .registration-form .form-group input:focus,
   .registration-form .form-group select:focus {
     border-color: #0074d9;
+    box-shadow: 0 4px 10px rgba(0, 116, 217, 0.2);
   }
   
   /* Input field icons */
   .registration-form .form-group .username-icon {
     position: absolute;
-    left: 10px;
-    top: 50%;
+    left: 40px;
+    top: 51%;
     transform: translateY(-50%);
     color: #0074d9;
     font-size: 16px;
@@ -155,18 +156,50 @@ body {
   
   /* Button Styling */
   .submit-btn {
-    width: 100%;
-    padding: 15px;
+    width: 400px;
+    height: 45px;
     background-color: #001f3f;
+    color: #fff;
     border: none;
-    color: white;
+    border-radius: 30px;
     font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -22px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
   }
   
+  /* Button Hover Effect */
   .submit-btn:hover {
     background-color: #0074d9;
+    box-shadow: 0px 15px 30px rgba(0, 116, 217, 0.5);
   }
+
+  /* Adjust input-pair to align fields side by side */
+.input-pair {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Ensure the input-boxes have appropriate width */
+.input-pair .input-box {
+  flex: 1;
+}
+
+/* Optionally adjust input width within the input-pair */
+.input-pair .input-box input {
+  width: 100%;
+}
+
+/* Ensuring form-group-button doesn't affect button position */
+.form-group-button {
+  text-align: center;
+  margin-top: 20px;
+}
+
   

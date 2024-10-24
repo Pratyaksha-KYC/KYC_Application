@@ -26,8 +26,8 @@ body {
 }
 
 /* Card wrapper for the login form */
-.wrapper {
-    width: 340px;
+.wrapper-login {
+    width: 400px !important; /* New width */
     background-color: #ffffff;
     border-radius: 20px;
     padding: 30px 30px 50px;
@@ -37,8 +37,9 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+
 /* Subtle hover effect to elevate the card */
-.wrapper:hover {
+.wrapper-login:hover {
     transform: translateY(-5px);
     box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.25);
 }
@@ -52,7 +53,7 @@ body {
 }
 
 /* Input box styles */
-.wrapper .input-box {
+.wrapper-login .input-box {
     position: relative;
     width: 100%;
     margin: 20px 0;
@@ -116,7 +117,7 @@ body {
 
 
 /* Login button */
-.wrapper button {
+.wrapper-login button {
     width: 300px;
     height: 45px;
     background-color: #001f3f;
@@ -135,14 +136,14 @@ body {
 }
 
 /* Enhanced hover effect for the login button */
-.wrapper button:hover {
+.wrapper-login button:hover {
     background-color: #0074d9;
     /* transform: scale(1.05); */
     box-shadow: 0px 15px 30px rgba(0, 116, 217, 0.5);
 }
 
 /* Register link */
-.wrapper .register-link {
+.wrapper-login .register-link {
     font-size: 14px;
     margin-top: 20px;
     text-align: center;
