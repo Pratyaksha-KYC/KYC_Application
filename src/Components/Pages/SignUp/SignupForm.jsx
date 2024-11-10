@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
+import { FaEarthAsia } from "react-icons/fa6";
 import "react-phone-input-2/lib/style.css";
 import {
   FaUser,
@@ -8,36 +9,93 @@ import {
   FaHome,
   FaMapMarkerAlt,
   FaCity,
+  FaCalendarAlt,
+  FaVenusMars,
 } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import "./SignupForm.css";
 
+const DateOfBirthField = () => {
+  const [dob, setDob] = useState("");
+
+  const handleDateChange = (e) => {
+    setDob(e.target.value);
+  };
+
+  return (
+    <div className="form-group">
+      {dob ? (
+        <input type="date" value={dob} onChange={handleDateChange} required />
+      ) : (
+        <input
+          type="text"
+          placeholder="Enter Date of Birth"
+          onFocus={(e) => (e.target.type = "date")}
+          onBlur={(e) => {
+            if (!dob) e.target.type = "text";
+          }}
+          onChange={handleDateChange}
+          required
+        />
+      )}
+      <FaCalendarAlt className="username-icon" />
+    </div>
+  );
+};
+
+const GenderSelectField = () => {
+  const [gender, setGender] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
+    setIsFocused(false); // Hide dropdown after selection
+  };
+
+  return (
+    <div className="form-group">
+      {isFocused || gender ? (
+        <select
+          value={gender}
+          onChange={handleGenderChange}
+          required
+          onBlur={() => setIsFocused(false)}
+          autoFocus
+        >
+          <option value="" disabled hidden>
+            Select Gender
+          </option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+      ) : (
+        <input
+          type="text"
+          placeholder="Select Gender"
+          onFocus={() => setIsFocused(true)}
+          readOnly
+          required
+        />
+      )}
+      <FaVenusMars className="username-icon" />
+    </div>
+  );
+};
+
 const SignupForm = () => {
   const [activeStep, setActiveStep] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [phoneError, setPhoneError] = useState("");
+  const [isValid, setIsValid] = useState(true);
 
   const handlePhoneNumberChange = (value) => {
     setPhoneNumber(value);
-    validatePhoneNumber(value);
+    setIsValid(validatePhoneNumber(value));
   };
 
-  const validatePhoneNumber = (value) => {
-    const phoneNumberDigits = value.replace(/\D/g, ""); // Remove non-digit characters
-    const localNumber = phoneNumberDigits.slice(-10); // Extract last 10 digits
-
-    if (localNumber.length === 10) {
-      setPhoneError("");
-      return true;
-    } else {
-      setPhoneError("Please enter a valid 10-digit phone number");
-      return false;
-    }
-  };
-
-  const handlePhoneChange = (value) => {
-    setPhoneNumber(value);
-    validatePhoneNumber(value);
+  const validatePhoneNumber = (phoneNumber) => {
+    const phoneNumberPattern = /^\d{12}$/;
+    return phoneNumberPattern.test(phoneNumber.replace(/\D/g, ""));
   };
 
   const renderFormContent = () => {
@@ -55,21 +113,30 @@ const SignupForm = () => {
                 <FaUser className="username-icon" />
               </div>
             </div>
+
+            <div className="input-pair">
+              <DateOfBirthField />
+              <GenderSelectField />
+            </div>
+
             <div className="form-group">
               <input type="email" placeholder="Email Address" required />
               <MdEmail className="username-icon" />
             </div>
             <div className="form-group phone-input">
               <PhoneInput
-                country={"us"}
+                country={"in"}
                 value={phoneNumber}
                 onChange={handlePhoneNumberChange}
+                inputProps={{
+                  required: true,
+                }}
               />
-              <FaPhoneAlt className="username-icon" />
-              <div className="error-message" id="phoneError">
-                {phoneError}
-              </div>{" "}
-              {/* Error message element */}
+              {!isValid && (
+                <p className="error-message">
+                  Please enter a valid phone number!
+                </p>
+              )}
             </div>
           </div>
         );
@@ -86,8 +153,18 @@ const SignupForm = () => {
                 <FaCity className="username-icon" />
               </div>
               <div className="form-group">
-                <input type="text" placeholder="Postal Code" required />
-                <FaMapMarkerAlt className="username-icon" />
+                <input type="text" placeholder="State" required />
+                <FaCity className="username-icon" />
+              </div>
+            </div>
+            <div className="input-pair">
+              <div className="form-group">
+                <input type="text" placeholder="Postal code" required />
+                <FaCity className="username-icon" />
+              </div>
+              <div className="form-group">
+                <input type="text" placeholder="Country" required />
+                <FaEarthAsia className="username-icon" />
               </div>
             </div>
           </div>
@@ -108,6 +185,12 @@ const SignupForm = () => {
       default:
         return null;
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log("Form submitted");
   };
 
   return (
@@ -133,7 +216,7 @@ const SignupForm = () => {
           Security
         </div>
       </div>
-      <form className="registration-form">
+      <form className="registration-form" onSubmit={handleSubmit}>
         {renderFormContent()}
         <button type="submit" className="submit-btn">
           Save & Continue
