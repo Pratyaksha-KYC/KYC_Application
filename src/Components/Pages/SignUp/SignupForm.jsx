@@ -7,6 +7,7 @@ import {
   FaLock,
   FaPhoneAlt,
   FaHome,
+  FaFlag,
   FaMapMarkerAlt,
   FaCity,
   FaCalendarAlt,
@@ -154,13 +155,13 @@ const SignupForm = () => {
               </div>
               <div className="form-group">
                 <input type="text" placeholder="State" required />
-                <FaCity className="username-icon" />
+                <FaFlag className="username-icon" />
               </div>
             </div>
             <div className="input-pair">
               <div className="form-group">
                 <input type="text" placeholder="Postal code" required />
-                <FaCity className="username-icon" />
+                <FaMapMarkerAlt className="username-icon" />
               </div>
               <div className="form-group">
                 <input type="text" placeholder="Country" required />
@@ -207,7 +208,7 @@ const SignupForm = () => {
           className={`breadcrumb ${activeStep === 2 ? "active" : ""}`}
           onClick={() => setActiveStep(2)}
         >
-          Contact Details
+          Address Details
         </div>
         <div
           className={`breadcrumb ${activeStep === 3 ? "active" : ""}`}
