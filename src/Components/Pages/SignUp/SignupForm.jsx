@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import { FaEarthAsia } from "react-icons/fa6";
 import "react-phone-input-2/lib/style.css";
+import { MdEmail } from "react-icons/md";
+import "./SignupForm.css";
 import {
   FaUser,
   FaLock,
@@ -13,8 +15,6 @@ import {
   FaCalendarAlt,
   FaVenusMars,
 } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import "./SignupForm.css";
 
 const DateOfBirthField = () => {
   const [dob, setDob] = useState("");

@@ -3,6 +3,7 @@ import "./App.css";
 import Home from "./Components/Pages/Home/HomePage";
 import LoginForm from "./Components/Pages/Login/LoginForm";
 import SignupForm from "./Components/Pages/SignUp/SignupForm";
+import ForgotPasswordForm from "./Components/Pages/ForgotPassword/ForgotPasswordForm";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignupForm />} />
+          <Route path="/forgotPassword" element={<ForgotPasswordForm />} />
         </Routes>
       </BrowserRouter>
     </div>
