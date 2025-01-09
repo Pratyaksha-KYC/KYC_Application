@@ -4,6 +4,7 @@ import { FaEarthAsia } from "react-icons/fa6";
 import "react-phone-input-2/lib/style.css";
 import { MdEmail } from "react-icons/md";
 import "./SignupForm.css";
+import axios from "axios";
 import {
   FaUser,
   FaLock,
@@ -99,6 +100,43 @@ const SignupForm = () => {
     return phoneNumberPattern.test(phoneNumber.replace(/\D/g, ""));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Collect form data
+    const formData = {
+      firstName: document.querySelector('input[placeholder="First Name"]')
+        .value,
+      lastName: document.querySelector('input[placeholder="Last Name"]').value,
+      dob: document.querySelector('input[type="date"]').value,
+      gender: document.querySelector("select[required]").value,
+      email: document.querySelector('input[type="email"]').value,
+      phoneNumber: phoneNumber,
+      streetAddress: document.querySelector(
+        'input[placeholder="Street Address"]'
+      ).value,
+      city: document.querySelector('input[placeholder="City"]').value,
+      state: document.querySelector('input[placeholder="State"]').value,
+      postalCode: document.querySelector('input[placeholder="Postal code"]')
+        .value,
+      country: document.querySelector('input[placeholder="Country"]').value,
+      password: document.querySelector('input[placeholder="Password"]').value,
+    };
+
+    try {
+      // Send data to the backend
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/registration/register/", // Replace with your backend API URL
+        formData
+      );
+      alert(response.data.message); // Show success message
+    } catch (error) {
+      alert(
+        "Error: " + (error.response?.data?.error || "Something went wrong")
+      );
+    }
+  };
+
   const renderFormContent = () => {
     switch (activeStep) {
       case 1:
@@ -186,12 +224,6 @@ const SignupForm = () => {
       default:
         return null;
     }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    console.log("Form submitted");
   };
 
   return (
