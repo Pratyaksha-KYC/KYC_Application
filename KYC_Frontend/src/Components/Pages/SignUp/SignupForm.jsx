@@ -3,8 +3,6 @@ import PhoneInput from "react-phone-input-2";
 import { FaEarthAsia } from "react-icons/fa6";
 import "react-phone-input-2/lib/style.css";
 import { MdEmail } from "react-icons/md";
-import "./SignupForm.css";
-import axios from "axios";
 import {
   FaUser,
   FaLock,
@@ -16,124 +14,102 @@ import {
   FaCalendarAlt,
   FaVenusMars,
 } from "react-icons/fa";
+import "./SignupForm.css";
+import axios from "axios";
 
-const DateOfBirthField = () => {
-  const [dob, setDob] = useState("");
-
+const DateOfBirthField = ({ formData, setFormData }) => {
   const handleDateChange = (e) => {
-    setDob(e.target.value);
+    setFormData({ ...formData, dob: e.target.value });
   };
 
   return (
     <div className="form-group">
-      {dob ? (
-        <input type="date" value={dob} onChange={handleDateChange} required />
-      ) : (
-        <input
-          type="text"
-          placeholder="Enter Date of Birth"
-          onFocus={(e) => (e.target.type = "date")}
-          onBlur={(e) => {
-            if (!dob) e.target.type = "text";
-          }}
-          onChange={handleDateChange}
-          required
-        />
-      )}
+      <input
+        type="date"
+        value={formData.dob || ""}
+        onChange={handleDateChange}
+        required
+      />
       <FaCalendarAlt className="username-icon" />
     </div>
   );
 };
 
-const GenderSelectField = () => {
-  const [gender, setGender] = useState("");
-  const [isFocused, setIsFocused] = useState(false);
-
+const GenderSelectField = ({ formData, setFormData }) => {
   const handleGenderChange = (e) => {
-    setGender(e.target.value);
-    setIsFocused(false); // Hide dropdown after selection
+    setFormData({ ...formData, gender: e.target.value });
   };
 
   return (
     <div className="form-group">
-      {isFocused || gender ? (
-        <select
-          value={gender}
-          onChange={handleGenderChange}
-          required
-          onBlur={() => setIsFocused(false)}
-          autoFocus
-        >
-          <option value="" disabled hidden>
-            Select Gender
-          </option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-      ) : (
-        <input
-          type="text"
-          placeholder="Select Gender"
-          onFocus={() => setIsFocused(true)}
-          readOnly
-          required
-        />
-      )}
+      <select
+        value={formData.gender || ""}
+        onChange={handleGenderChange}
+        required
+      >
+        <option value="" disabled hidden>
+          Select Gender
+        </option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
       <FaVenusMars className="username-icon" />
     </div>
   );
 };
 
 const SignupForm = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    dob: "",
+    gender: "",
+    email: "",
+    phoneNumber: "",
+    streetAddress: "",
+    city: "",
+    state: "",
+    postalCode: "",
+    country: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   const [activeStep, setActiveStep] = useState(1);
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [isValid, setIsValid] = useState(true);
+  const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
 
   const handlePhoneNumberChange = (value) => {
-    setPhoneNumber(value);
-    setIsValid(validatePhoneNumber(value));
-  };
-
-  const validatePhoneNumber = (phoneNumber) => {
     const phoneNumberPattern = /^\d{12}$/;
-    return phoneNumberPattern.test(phoneNumber.replace(/\D/g, ""));
+    setFormData({ ...formData, phoneNumber: value });
+    setIsValidPhoneNumber(phoneNumberPattern.test(value.replace(/\D/g, "")));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Collect form data
-    const formData = {
-      firstName: document.querySelector('input[placeholder="First Name"]')
-        .value,
-      lastName: document.querySelector('input[placeholder="Last Name"]').value,
-      dob: document.querySelector('input[type="date"]').value,
-      gender: document.querySelector("select[required]").value,
-      email: document.querySelector('input[type="email"]').value,
-      phoneNumber: phoneNumber,
-      streetAddress: document.querySelector(
-        'input[placeholder="Street Address"]'
-      ).value,
-      city: document.querySelector('input[placeholder="City"]').value,
-      state: document.querySelector('input[placeholder="State"]').value,
-      postalCode: document.querySelector('input[placeholder="Postal code"]')
-        .value,
-      country: document.querySelector('input[placeholder="Country"]').value,
-      password: document.querySelector('input[placeholder="Password"]').value,
-    };
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
 
     try {
-      // Send data to the backend
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/registration/register/", // Replace with your backend API URL
+        "http://127.0.0.1:8000/api/registration_API/register/",
         formData
       );
-      alert(response.data.message); // Show success message
+      alert(response.data.message || "Signup successful!");
     } catch (error) {
       alert(
         "Error: " + (error.response?.data?.error || "Something went wrong")
       );
+    }
+  };
+
+  const handleNext = () => {
+    if (activeStep < 3) {
+      setActiveStep(activeStep + 1);
     }
   };
 
@@ -144,34 +120,59 @@ const SignupForm = () => {
           <div>
             <div className="input-pair">
               <div className="form-group">
-                <input type="text" placeholder="First Name" required />
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  value={formData.firstName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, firstName: e.target.value })
+                  }
+                  required
+                />
                 <FaUser className="username-icon" />
               </div>
               <div className="form-group">
-                <input type="text" placeholder="Last Name" required />
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  value={formData.lastName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, lastName: e.target.value })
+                  }
+                  required
+                />
                 <FaUser className="username-icon" />
               </div>
             </div>
-
             <div className="input-pair">
-              <DateOfBirthField />
-              <GenderSelectField />
+              <DateOfBirthField formData={formData} setFormData={setFormData} />
+              <GenderSelectField
+                formData={formData}
+                setFormData={setFormData}
+              />
             </div>
-
             <div className="form-group">
-              <input type="email" placeholder="Email Address" required />
+              <input
+                type="email"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+                required
+              />
               <MdEmail className="username-icon" />
             </div>
             <div className="form-group phone-input">
               <PhoneInput
                 country={"in"}
-                value={phoneNumber}
+                value={formData.phoneNumber}
                 onChange={handlePhoneNumberChange}
                 inputProps={{
                   required: true,
                 }}
               />
-              {!isValid && (
+              {!isValidPhoneNumber && (
                 <p className="error-message">
                   Please enter a valid phone number!
                 </p>
@@ -183,26 +184,66 @@ const SignupForm = () => {
         return (
           <div>
             <div className="form-group">
-              <input type="text" placeholder="Street Address" required />
+              <input
+                type="text"
+                placeholder="Street Address"
+                value={formData.streetAddress}
+                onChange={(e) =>
+                  setFormData({ ...formData, streetAddress: e.target.value })
+                }
+                required
+              />
               <FaHome className="username-icon" />
             </div>
             <div className="input-pair">
               <div className="form-group">
-                <input type="text" placeholder="City" required />
+                <input
+                  type="text"
+                  placeholder="City"
+                  value={formData.city}
+                  onChange={(e) =>
+                    setFormData({ ...formData, city: e.target.value })
+                  }
+                  required
+                />
                 <FaCity className="username-icon" />
               </div>
               <div className="form-group">
-                <input type="text" placeholder="State" required />
+                <input
+                  type="text"
+                  placeholder="State"
+                  value={formData.state}
+                  onChange={(e) =>
+                    setFormData({ ...formData, state: e.target.value })
+                  }
+                  required
+                />
                 <FaFlag className="username-icon" />
               </div>
             </div>
             <div className="input-pair">
               <div className="form-group">
-                <input type="text" placeholder="Postal code" required />
+                <input
+                  type="text"
+                  placeholder="Postal code"
+                  value={formData.postalCode}
+                  onChange={(e) =>
+                    setFormData({ ...formData, postalCode: e.target.value })
+                  }
+                  required
+                />
                 <FaMapMarkerAlt className="username-icon" />
               </div>
               <div className="form-group">
-                <input type="text" placeholder="Country" required />
+                <input
+                  type="text"
+                  placeholder="Country"
+                  value={formData.country}
+                  onChange={(e) =>
+                    setFormData({ ...formData, country: e.target.value })
+                  }
+                  required
+                />
                 <FaEarthAsia className="username-icon" />
               </div>
             </div>
@@ -212,11 +253,27 @@ const SignupForm = () => {
         return (
           <div>
             <div className="form-group">
-              <input type="password" placeholder="Password" required />
+              <input
+                type="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+                required
+              />
               <FaLock className="username-icon" />
             </div>
             <div className="form-group">
-              <input type="password" placeholder="Confirm Password" required />
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={(e) =>
+                  setFormData({ ...formData, confirmPassword: e.target.value })
+                }
+                required
+              />
               <FaLock className="username-icon" />
             </div>
           </div>
@@ -251,8 +308,12 @@ const SignupForm = () => {
       </div>
       <form className="registration-form" onSubmit={handleSubmit}>
         {renderFormContent()}
-        <button type="submit" className="submit-btn">
-          Save & Continue
+        <button
+          type={activeStep === 3 ? "submit" : "button"}
+          className="submit-btn"
+          onClick={activeStep === 3 ? undefined : handleNext}
+        >
+          {activeStep === 3 ? "Sign Up" : "Next"}
         </button>
       </form>
     </div>

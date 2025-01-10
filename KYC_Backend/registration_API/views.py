@@ -13,16 +13,16 @@ class RegisterView(APIView):
 
         # Check if all required fields are present
         required_fields = [
-            "first_name",
-            "last_name",
+            "firstName",
+            "lastName",
             "dob",
             "gender",
             "email",
-            "phone_number",
-            "street_address",
+            "phoneNumber",
+            "streetAddress",
             "city",
             "state",
-            "postal_code",
+            "postalCode",
             "country",
             "password",
         ]
@@ -52,7 +52,7 @@ class RegisterView(APIView):
         try:
             # Check for duplicate email or phone number
             existing_user = collection.find_one(
-                {"$or": [{"email": data["email"]}, {"phone_number": data["phone_number"]}]}
+                {"$or": [{"email": data["email"]}, {"phoneNumber": data["phoneNumber"]}]}
             )
             if existing_user:
                 return Response(
@@ -74,10 +74,10 @@ class RegisterView(APIView):
                 {
                     "message": "Registration successful!",
                     "user": {
-                        "first_name": data["first_name"],
-                        "last_name": data["last_name"],
+                        "firstName": data["firstName"],
+                        "lastName": data["lastName"],
                         "email": data["email"],
-                        "phone_number": data["phone_number"],
+                        "phoneNumber": data["phoneNumber"],
                     },
                 },
                 status=status.HTTP_201_CREATED,
