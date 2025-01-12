@@ -37,7 +37,6 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-
 /* Subtle hover effect to elevate the card */
 .wrapper-login:hover {
     transform: translateY(-5px);
@@ -87,8 +86,36 @@ body {
     font-size: 16px;
 }
 
+/* Eye Icon for Password Visibility */
+.eye-icon {
+    position: absolute;
+    right: 15px; /* Positioning the icon inside the input box */
+    top: 50%;
+    transform: translateY(-50%); /* Centering the icon vertically */
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+    color: #0074d9; /* Color of the eye icon */
+    font-size: 20px; /* Size of the eye icon */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+/* Hover effect for the eye icon */
+.eye-icon:hover {
+    color: #001f3f; /* Change icon color on hover */
+}
+
+/* Additional styles for the password input box when the eye icon is added */
+.wrapper-login .input-box {
+    position: relative;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.input-box input[type="password"] {
+    padding-right: 40px; /* Make space for the eye icon inside the input */
+}
+
 /* Remember me and Forgot password section */
-.remenber-forgot {
+.remember-forgot {
     display: flex;
     justify-content: space-between;
     align-items: center; /* This ensures everything is aligned vertically */
@@ -96,25 +123,24 @@ body {
     margin: 15px 0;
 }
 
-.remenber-forgot label {
+.remember-forgot label {
     display: flex;
     align-items: center; /* Aligns checkbox and label */
 }
 
-.remenber-forgot label input {
+.remember-forgot label input {
     margin-right: 5px; /* Adds space between checkbox and label text */
     accent-color: #0074d9; /* Color for the checkbox */
 }
 
-.remenber-forgot a {
+.remember-forgot a {
     color: #0074d9;
     text-decoration: none;
 }
 
-.remenber-forgot a:hover {
+.remember-forgot a:hover {
     text-decoration: underline;
 }
-
 
 /* Login button */
 .wrapper-login button {

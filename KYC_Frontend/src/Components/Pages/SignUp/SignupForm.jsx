@@ -6,7 +6,6 @@ import { MdEmail } from "react-icons/md";
 import {
   FaUser,
   FaLock,
-  FaPhoneAlt,
   FaHome,
   FaFlag,
   FaMapMarkerAlt,
@@ -96,7 +95,7 @@ const SignupForm = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/registration_API/register/",
+        "http://127.0.0.1:8000/api/register/",
         formData
       );
       alert(response.data.message || "Signup successful!");
