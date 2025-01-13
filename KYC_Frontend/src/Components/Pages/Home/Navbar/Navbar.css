@@ -1,0 +1,78 @@
+/* Navbar styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px; /* Adjusted padding for proper spacing */
+    background-color: #004d99;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; /* Ensures full viewport width */
+    z-index: 1000; /* Ensures it stays on top */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Avoid width issues with padding */
+    height: 60px; /* Set a fixed height for uniformity */
+  }
+
+  /* Brand logo */
+  .brand-logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+  
+  /* Links in the navbar */
+  .navbar-links {
+    display: flex;
+    gap: 20px; /* Add space between links */
+  }
+  
+  .navbar-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-links a:hover {
+    color: #ff5722; /* Highlight effect on hover */
+  }
+  
+  /* Footer button styles */
+  .navbar-buttons {
+    display: flex;
+    gap: 15px; /* Space between buttons */
+  }
+  
+  .navbar-buttons .btn-login,
+  .navbar-buttons .btn-signup {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .navbar-buttons .btn-login {
+    background-color: white;
+    color: #004d99;
+  }
+  
+  .navbar-buttons .btn-signup {
+    background-color: #ff5722;
+    color: white;
+  }
+  
+  .navbar-buttons .btn-login:hover {
+    background-color: #ff5722;
+    color: white;
+  }
+  
+  .navbar-buttons .btn-signup:hover {
+    background-color: white;
+    color: #ff5722;
+  }
+  

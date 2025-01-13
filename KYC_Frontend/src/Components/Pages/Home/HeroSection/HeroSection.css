@@ -1,0 +1,64 @@
+/* Reset for HeroSection container */
+.hero-section {
+  text-align: center;
+  padding: 100px 20px;
+  background: linear-gradient(to bottom right, #66b3ff, #003d99);
+  color: white;
+  width: 100vw; /* Use viewport width to ensure full width */
+  height: 100vh; /* Full viewport height */
+  box-sizing: border-box; /* Include padding in width/height */
+  margin: 0; /* Ensure no margin */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Hero section heading styling */
+.hero-section h1 {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+}
+
+/* Hero section paragraph styling */
+.hero-section p {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+}
+
+/* Button container styling */
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Primary button styling */
+.btn-primary,
+.btn-secondary {
+  padding: 12px 30px;
+  border: none;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* Primary button specific styling */
+.btn-primary {
+  background-color: #ff5722;
+  color: white;
+}
+
+/* Secondary button specific styling */
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+/* Button hover effect */
+.btn-primary:hover,
+.btn-secondary:hover {
+  transform: scale(1.1);
+}
