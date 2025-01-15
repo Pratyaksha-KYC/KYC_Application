@@ -1,7 +1,10 @@
+import jwt
+import datetime
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import check_password
+from django.conf import settings
 from .db_mongo import collection
 
 
@@ -9,14 +12,12 @@ class LoginView(APIView):
     def post(self, request):
         data = request.data
 
-        # Check if email or phoneNumber is provided
+        # Validate input
         if "email" not in data and "phoneNumber" not in data:
             return Response(
                 {"error": "Email or phone number is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-
-        # Check if password is provided
         if "password" not in data or not data["password"]:
             return Response(
                 {"error": "Password is required."},
@@ -24,8 +25,13 @@ class LoginView(APIView):
             )
 
         try:
-            # Retrieve user by email or phone number
-            user = collection.find_one({"$or": [{"email": data.get("email")}, {"phoneNumber": data.get("phoneNumber")}]})
+            # Find user by email or phone number (case-insensitive for email)
+            user = collection.find_one({
+                "$or": [
+                    {"email": {"$regex": f"^{data.get('email')}$", "$options": "i"}},
+                    {"phoneNumber": data.get("phoneNumber")}
+                ]
+            })
 
             if not user:
                 return Response(
@@ -33,17 +39,37 @@ class LoginView(APIView):
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            # Validate the password
+            # Check password
             if not check_password(data["password"], user["password"]):
                 return Response(
                     {"error": "Invalid password."},
                     status=status.HTTP_401_UNAUTHORIZED,
                 )
 
-            # Return success response
+            # Generate JWT tokens
+            access_token_payload = {
+                "user_id": str(user["_id"]),  # MongoDB's `_id` is typically ObjectId
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=30),  # Token expires in 30 minutes
+                "iat": datetime.datetime.utcnow(),
+            }
+            refresh_token_payload = {
+                "user_id": str(user["_id"]),
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1),  # Refresh token expires in 1 day
+                "iat": datetime.datetime.utcnow(),
+            }
+
+            access_token = jwt.encode(
+                access_token_payload, settings.SECRET_KEY, algorithm="HS256"
+            )
+            refresh_token = jwt.encode(
+                refresh_token_payload, settings.SECRET_KEY, algorithm="HS256"
+            )
+
             return Response(
                 {
                     "message": "Login successful!",
+                    "access_token": access_token,
+                    "refresh_token": refresh_token,
                     "user": {
                         "firstName": user["firstName"],
                         "lastName": user["lastName"],
