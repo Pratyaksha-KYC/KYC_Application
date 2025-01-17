@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import { FaEarthAsia } from "react-icons/fa6";
 import "react-phone-input-2/lib/style.css";
-import { MdEmail } from "react-icons/md";
+import { MdEmail, MdOutlinePhonelinkLock } from "react-icons/md";
 import {
   FaUser,
   FaLock,
@@ -73,10 +73,12 @@ const SignupForm = () => {
     country: "",
     password: "",
     confirmPassword: "",
+    otp: "",
   });
 
   const [activeStep, setActiveStep] = useState(1);
   const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
+  const [otpSent, setOtpSent] = useState(false);
 
   const handlePhoneNumberChange = (value) => {
     const phoneNumberPattern = /^\d{12}$/;
@@ -86,6 +88,22 @@ const SignupForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (activeStep === 3) {
+      // Verify OTP
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/verify-otp/",
+          { email: formData.email, otp: formData.otp }
+        );
+        alert(response.data.message || "Verification successful!");
+      } catch (error) {
+        alert(
+          "Error: " + (error.response?.data?.error || "Something went wrong")
+        );
+      }
+      return;
+    }
 
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
@@ -99,6 +117,7 @@ const SignupForm = () => {
         formData
       );
       alert(response.data.message || "Signup successful!");
+      setActiveStep(activeStep + 1); // Proceed to OTP Verification
     } catch (error) {
       alert(
         "Error: " + (error.response?.data?.error || "Something went wrong")
@@ -106,10 +125,38 @@ const SignupForm = () => {
     }
   };
 
-  const handleNext = () => {
-    if (activeStep < 3) {
-      setActiveStep(activeStep + 1);
+  const handleSendOtp = async () => {
+    try {
+      await axios.post("http://127.0.0.1:8000/api/send-otp/", {
+        email: formData.email,
+      });
+      setOtpSent(true);
+      alert("OTP sent to your email!");
+    } catch (error) {
+      alert("Error: " + (error.response?.data?.error || "Failed to send OTP"));
     }
+  };
+
+  const isNextDisabled = () => {
+    if (activeStep === 1) {
+      return (
+        !formData.firstName ||
+        !formData.lastName ||
+        !formData.dob ||
+        !formData.gender ||
+        !formData.email ||
+        !isValidPhoneNumber
+      );
+    } else if (activeStep === 2) {
+      return (
+        !formData.streetAddress ||
+        !formData.city ||
+        !formData.state ||
+        !formData.postalCode ||
+        !formData.country
+      );
+    }
+    return false;
   };
 
   const renderFormContent = () => {
@@ -275,6 +322,26 @@ const SignupForm = () => {
               />
               <FaLock className="username-icon" />
             </div>
+            <p className="otp-instruction">
+              Please enter the OTP sent to your email:
+            </p>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Enter OTP"
+                value={formData.otp}
+                onChange={(e) =>
+                  setFormData({ ...formData, otp: e.target.value })
+                }
+                required
+              />
+              <MdOutlinePhonelinkLock className="username-icon" />
+            </div>
+            {!otpSent && (
+              <button type="button" className="otp-btn" onClick={handleSendOtp}>
+                Send OTP
+              </button>
+            )}
           </div>
         );
       default:
@@ -302,7 +369,7 @@ const SignupForm = () => {
           className={`breadcrumb ${activeStep === 3 ? "active" : ""}`}
           onClick={() => setActiveStep(3)}
         >
-          Security
+          Security & Verification
         </div>
       </div>
       <form className="registration-form" onSubmit={handleSubmit}>
@@ -310,9 +377,12 @@ const SignupForm = () => {
         <button
           type={activeStep === 3 ? "submit" : "button"}
           className="submit-btn"
-          onClick={activeStep === 3 ? undefined : handleNext}
+          onClick={
+            activeStep === 3 ? undefined : () => setActiveStep(activeStep + 1)
+          }
+          disabled={isNextDisabled()}
         >
-          {activeStep === 3 ? "Sign Up" : "Next"}
+          {activeStep === 3 ? "Verify & Sign Up" : "Next"}
         </button>
       </form>
     </div>
