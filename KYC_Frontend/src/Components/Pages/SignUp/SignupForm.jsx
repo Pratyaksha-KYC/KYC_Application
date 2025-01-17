@@ -8,7 +8,9 @@ import {
   FaLock,
   FaHome,
   FaFlag,
+  FaEye,
   FaMapMarkerAlt,
+  FaEyeSlash,
   FaCity,
   FaCalendarAlt,
   FaVenusMars,
@@ -79,6 +81,7 @@ const SignupForm = () => {
   const [activeStep, setActiveStep] = useState(1);
   const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
   const [otpSent, setOtpSent] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false); // Toggle password visibility
 
   const handlePhoneNumberChange = (value) => {
     const phoneNumberPattern = /^\d{12}$/;
@@ -157,6 +160,11 @@ const SignupForm = () => {
       );
     }
     return false;
+  };
+
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setPasswordVisible((prevState) => !prevState);
   };
 
   const renderFormContent = () => {
@@ -300,7 +308,7 @@ const SignupForm = () => {
           <div>
             <div className="form-group">
               <input
-                type="password"
+                type={passwordVisible ? "text" : "password"}
                 placeholder="Password"
                 value={formData.password}
                 onChange={(e) =>
@@ -312,7 +320,7 @@ const SignupForm = () => {
             </div>
             <div className="form-group">
               <input
-                type="password"
+                type={passwordVisible ? "text" : "password"}
                 placeholder="Confirm Password"
                 value={formData.confirmPassword}
                 onChange={(e) =>
@@ -321,6 +329,9 @@ const SignupForm = () => {
                 required
               />
               <FaLock className="username-icon" />
+              <div className="eye-icon" onClick={togglePasswordVisibility}>
+                {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+              </div>
             </div>
             <p className="otp-instruction">
               Please enter the OTP sent to your email:

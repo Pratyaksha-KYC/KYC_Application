@@ -240,4 +240,36 @@ body {
 .input-pair .form-group {
   flex: 1;
 }
+.otp-btn {
+  background-color: #007bff; /* Light blue background */
+  color: white; /* White text */
+  padding: 10px 20px; /* Balanced padding for the button */
+  font-size: 16px; /* Slightly larger font size */
+  border: none; /* No border for a clean look */
+  border-radius: 25px; /* Rounded button shape */
+  cursor: pointer; /* Pointer cursor for better UX */
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3); /* Subtle light effect */
+  transition: all 0.3s ease; /* Smooth transitions */
+}
+
+.otp-btn:hover {
+  background-color: #0056b3; /* Slightly darker blue on hover */
+  box-shadow: 0 6px 12px rgba(0, 86, 179, 0.4); /* Enhanced shadow effect */
+  transform: translateY(-2px); /* Subtle lift effect */
+}
+
+.otp-instruction {
+  font-size: 16px; /* Slightly larger text */
+  font-weight: 500; /* Medium boldness for emphasis */
+  color: #333; /* Darker text color for readability */
+  margin-bottom: 12px; /* Spacing below the text */
+  text-align: center; /* Center-align the instruction text */
+}
+
+
+
+
+
+
+
 

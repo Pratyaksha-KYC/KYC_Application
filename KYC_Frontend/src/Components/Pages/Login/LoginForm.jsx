@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./LoginForm.css";
+import Navbar from "../Home/Navbar/Navbar";
 import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
