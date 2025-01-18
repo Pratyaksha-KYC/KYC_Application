@@ -95,11 +95,19 @@ const SignupForm = () => {
     if (activeStep === 3) {
       // Verify OTP
       try {
-        const response = await axios.post(
-          "http://127.0.0.1:8000/api/verify-otp/",
+        const otpResponse = await axios.post(
+          "http://127.0.0.1:8000/otp/verify-otp/",
           { email: formData.email, otp: formData.otp }
         );
-        alert(response.data.message || "Verification successful!");
+        alert(otpResponse.data.message || "OTP verification successful!");
+
+        // Register the user after OTP verification
+        const registerResponse = await axios.post(
+          "http://127.0.0.1:8000/api/register/",
+          formData
+        );
+        alert(registerResponse.data.message || "Signup successful!");
+        // Reset form or redirect to login page as needed
       } catch (error) {
         alert(
           "Error: " + (error.response?.data?.error || "Something went wrong")
@@ -130,7 +138,7 @@ const SignupForm = () => {
 
   const handleSendOtp = async () => {
     try {
-      await axios.post("http://127.0.0.1:8000/api/send-otp/", {
+      await axios.post("http://127.0.0.1:8000/otp/send-otp/", {
         email: formData.email,
       });
       setOtpSent(true);

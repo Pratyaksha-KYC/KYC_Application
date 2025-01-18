@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'registration_API',
     'login_API',
+    'otp_API',
 ]
 
 MIDDLEWARE = [
@@ -133,5 +134,15 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
 
+EMAIL_DEBUG = True
+
 # Allow all origins for CORS (you may want to refine this for production)
 CORS_ALLOW_ALL_ORIGINS = True
+
+EMAIL_BACKEND = 'KYC_Backend.custom_email_backend.CustomEmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False 
+EMAIL_HOST_USER = 'shri2sontakke@gmail.com' 
+EMAIL_HOST_PASSWORD = 'mtabddiywetajanj'  
