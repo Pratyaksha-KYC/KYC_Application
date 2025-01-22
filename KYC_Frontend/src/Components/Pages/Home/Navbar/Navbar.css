@@ -2,9 +2,10 @@
 .navbar {
     display: flex;
     justify-content: space-between;
+    font-family: 'Poppins', sans-serif;
     align-items: center;
     padding: 15px 40px; /* Adjusted padding for proper spacing */
-    background-color: #004d99;
+    background: #66b3ff;
     color: white;
     position: fixed;
     top: 0;

@@ -109,73 +109,75 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="wrapper-login">
-      <form onSubmit={handleSubmit}>
-        <h1 className="form-title">Login</h1>
+    <div className="login-form">
+      <div className="wrapper-login">
+        <form onSubmit={handleSubmit}>
+          <h1 className="form-title">Login</h1>
 
-        <div className="input-box">
-          <div className="icon-container">{icon}</div>
+          <div className="input-box">
+            <div className="icon-container">{icon}</div>
 
-          {isPhoneField ? (
-            <div className="phone-input">
-              <PhoneInput
-                country={"us"}
-                value={phoneNumber}
-                onChange={handlePhoneChange}
-                inputClass="phone-input-field"
-                containerClass="react-tel-input"
+            {isPhoneField ? (
+              <div className="phone-input">
+                <PhoneInput
+                  country={"us"}
+                  value={phoneNumber}
+                  onChange={handlePhoneChange}
+                  inputClass="phone-input-field"
+                  containerClass="react-tel-input"
+                />
+                {!isValidPhoneNumber && (
+                  <p className="error-message">
+                    Please enter a valid phone number!
+                  </p>
+                )}
+              </div>
+            ) : (
+              <input
+                type="text"
+                placeholder="Username (Email or Phone Number)"
+                required
+                value={username}
+                onChange={handleUsernameChange}
               />
-              {!isValidPhoneNumber && (
-                <p className="error-message">
-                  Please enter a valid phone number!
-                </p>
-              )}
-            </div>
-          ) : (
-            <input
-              type="text"
-              placeholder="Username (Email or Phone Number)"
-              required
-              value={username}
-              onChange={handleUsernameChange}
-            />
-          )}
-        </div>
-
-        {error && <p className="error-message">{error}</p>}
-
-        <div className="input-box">
-          <input
-            type={passwordVisible ? "text" : "password"}
-            placeholder="Password"
-            required
-            value={password}
-            onChange={handlePasswordChange}
-          />
-          <FaLock className="password icon" />
-          <div className="eye-icon" onClick={togglePasswordVisibility}>
-            {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+            )}
           </div>
-        </div>
 
-        <div className="remember-forgot">
-          <label>
-            <input type="checkbox" />
-            Remember me
-          </label>
-          <a href="/forgotPassword">Forgot Password?</a>
-        </div>
+          {error && <p className="error-message">{error}</p>}
 
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Logging in..." : "Login"}
-        </button>
+          <div className="input-box">
+            <input
+              type={passwordVisible ? "text" : "password"}
+              placeholder="Password"
+              required
+              value={password}
+              onChange={handlePasswordChange}
+            />
+            <FaLock className="password icon" />
+            <div className="eye-icon" onClick={togglePasswordVisibility}>
+              {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+            </div>
+          </div>
 
-        <div className="register-link">
-          <p>
-            Don't have an account? <a href="/signup">Register</a>
-          </p>
-        </div>
-      </form>
+          <div className="remember-forgot">
+            <label>
+              <input type="checkbox" />
+              Remember me
+            </label>
+            <a href="/forgotPassword">Forgot Password?</a>
+          </div>
+
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
+          </button>
+
+          <div className="register-link">
+            <p>
+              Don't have an account? <a href="/signup">Register</a>
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

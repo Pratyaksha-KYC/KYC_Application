@@ -1,8 +1,9 @@
 /* Reset for HeroSection container */
 .hero-section {
   text-align: center;
+  font-family: 'Poppins', sans-serif;
   padding: 100px 20px;
-  background: linear-gradient(to bottom right, #66b3ff, #003d99);
+  background: linear-gradient(to bottom right , white, #66b3ff, #003d99);
   color: white;
   width: 100vw; /* Use viewport width to ensure full width */
   height: 100vh; /* Full viewport height */

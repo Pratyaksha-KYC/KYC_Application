@@ -369,41 +369,43 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="wrapper-signup">
-      <h1 className="form-title">Sign Up</h1>
-      <div className="breadcrumb-nav">
-        <div
-          className={`breadcrumb ${activeStep === 1 ? "active" : ""}`}
-          onClick={() => setActiveStep(1)}
-        >
-          Base Information
+    <div className="signup-form">
+      <div className="wrapper-signup">
+        <h1 className="form-title">Sign Up</h1>
+        <div className="breadcrumb-nav">
+          <div
+            className={`breadcrumb ${activeStep === 1 ? "active" : ""}`}
+            onClick={() => setActiveStep(1)}
+          >
+            Base Information
+          </div>
+          <div
+            className={`breadcrumb ${activeStep === 2 ? "active" : ""}`}
+            onClick={() => setActiveStep(2)}
+          >
+            Address Details
+          </div>
+          <div
+            className={`breadcrumb ${activeStep === 3 ? "active" : ""}`}
+            onClick={() => setActiveStep(3)}
+          >
+            Security & Verification
+          </div>
         </div>
-        <div
-          className={`breadcrumb ${activeStep === 2 ? "active" : ""}`}
-          onClick={() => setActiveStep(2)}
-        >
-          Address Details
-        </div>
-        <div
-          className={`breadcrumb ${activeStep === 3 ? "active" : ""}`}
-          onClick={() => setActiveStep(3)}
-        >
-          Security & Verification
-        </div>
+        <form className="registration-form" onSubmit={handleSubmit}>
+          {renderFormContent()}
+          <button
+            type={activeStep === 3 ? "submit" : "button"}
+            className="submit-btn"
+            onClick={
+              activeStep === 3 ? undefined : () => setActiveStep(activeStep + 1)
+            }
+            disabled={isNextDisabled()}
+          >
+            {activeStep === 3 ? "Verify & Sign Up" : "Next"}
+          </button>
+        </form>
       </div>
-      <form className="registration-form" onSubmit={handleSubmit}>
-        {renderFormContent()}
-        <button
-          type={activeStep === 3 ? "submit" : "button"}
-          className="submit-btn"
-          onClick={
-            activeStep === 3 ? undefined : () => setActiveStep(activeStep + 1)
-          }
-          disabled={isNextDisabled()}
-        >
-          {activeStep === 3 ? "Verify & Sign Up" : "Next"}
-        </button>
-      </form>
     </div>
   );
 };
