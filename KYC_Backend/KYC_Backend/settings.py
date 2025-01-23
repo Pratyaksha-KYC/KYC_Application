@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'registration_API',
     'login_API',
     'otp_API',
+    'KYCform_API',
 ]
 
 MIDDLEWARE = [
