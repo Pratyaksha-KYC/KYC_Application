@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
-from .db_mongo import collection
+from .db_mongo import users_collection
 from datetime import datetime
 from .utils import validate_email_format, validate_password_strength
 
@@ -25,6 +25,7 @@ class RegisterView(APIView):
             "postalCode",
             "country",
             "password",
+            "confirmPassword",
         ]
 
         for field in required_fields:
@@ -49,9 +50,19 @@ class RegisterView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        # Set default role to "initiator" if not provided
+        valid_roles = {"initiator", "recipient", "admin"}
+        data["role"] = data.get("role", "initiator").lower()
+
+        if data["role"] not in valid_roles:
+            return Response(
+                {"error": "Invalid role. Allowed roles: initiator, recipient, admin."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         try:
             # Check for duplicate email or phone number
-            existing_user = collection.find_one(
+            existing_user = users_collection.find_one(
                 {"$or": [{"email": data["email"]}, {"phoneNumber": data["phoneNumber"]}]}
             )
             if existing_user:
@@ -68,7 +79,7 @@ class RegisterView(APIView):
             data["updated_at"] = datetime.utcnow()
 
             # Insert the data into MongoDB
-            collection.insert_one(data)
+            users_collection.insert_one(data)
 
             return Response(
                 {
@@ -78,6 +89,7 @@ class RegisterView(APIView):
                         "lastName": data["lastName"],
                         "email": data["email"],
                         "phoneNumber": data["phoneNumber"],
+                        "role": data["role"],
                     },
                 },
                 status=status.HTTP_201_CREATED,

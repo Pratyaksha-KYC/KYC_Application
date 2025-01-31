@@ -4,7 +4,6 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pymongo = "*"
 djangorestframework-simplejwt = "*"
 pyjwt = "*"
 djongo = "*"
@@ -13,6 +12,12 @@ django-cors-headers = "*"
 setuptools = "*"
 djangorestframework = "*"
 pillow = "*"
+pymongo = "*"
+pytesseract = "*"
+opencv-python = "*"
+pdf2image = "*"
+pymupdf = "*"
+python-dateutil = "*"
 
 [dev-packages]
 

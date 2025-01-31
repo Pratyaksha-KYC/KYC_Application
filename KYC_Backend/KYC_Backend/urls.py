@@ -6,5 +6,5 @@ urlpatterns = [
     path('api/', include('registration_API.urls')),
     path('api/', include('login_API.urls')),
     path('otp/', include('otp_API.urls')),
-    path('api/', include('KYCform_API.urls')),
+    path("api/licenses/", include("licenses_API.urls")),
 ]
