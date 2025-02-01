@@ -1,9 +1,10 @@
 import uuid
 from bson import ObjectId
+from datetime import datetime
+from rest_framework import status
+from .services import send_purchase_email , send_license_assignment_email
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
-from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from .db_mongo import licenses_collection, license_assignments_collection
 from registration_API.db_mongo import users_collection
@@ -58,7 +59,7 @@ class PurchaseLicenseView(APIView):
             "license_id": license_id,
             "initiator_email": initiator_email,
             "license_type": license_type,
-            "validity_period": validity_months * 30,  # Approximate days
+            "validity_period": f"{validity_months * 30} days",  # Stores as "90 days", "180 days".
             "total_slots": data["total_slots"],
             "used_slots": 0,
             "purchase_date": purchase_date,
@@ -69,12 +70,14 @@ class PurchaseLicenseView(APIView):
         # Insert into MongoDB
         licenses_collection.insert_one(license_data)
 
+        # Send email notification
+        send_purchase_email(initiator_email, data["license_type"], license_data["validity_period"])
+
         return Response({
             "message": "License purchased successfully!",
             "license_id": license_id,
             "valid_until": valid_until.strftime("%Y-%m-%d")
         }, status=status.HTTP_201_CREATED)
-
 
 # Assign License to Recipients
 class AssignLicenseView(APIView):
@@ -91,15 +94,24 @@ class AssignLicenseView(APIView):
         if not license_entry:
             return Response({"error": "License not found"}, status=status.HTTP_404_NOT_FOUND)
 
+        # Check if the recipient_email is already assigned to this license
+        existing_assignment = license_assignments_collection.find_one({
+            "license_id": data["license_id"],
+            "recipient_email": data["recipient_email"]
+        })
+        if existing_assignment:
+            return Response({"error": "This KYC has already been assigned to this Person"}, status=status.HTTP_400_BAD_REQUEST)
+
         # Check available slots
         if license_entry["used_slots"] >= license_entry["total_slots"]:
             return Response({"error": "No available slots in this license"}, status=status.HTTP_400_BAD_REQUEST)
 
         # Assign license
+        assigned_at = datetime.utcnow()
         license_assignments_collection.insert_one({
             "license_id": data["license_id"],
             "recipient_email": data["recipient_email"],
-            "assigned_at": datetime.utcnow(),
+            "assigned_at": assigned_at,
             "status": "pending"
         })
 
@@ -112,6 +124,14 @@ class AssignLicenseView(APIView):
             update_data["status"] = "expired"
 
         licenses_collection.update_one({"_id": data["license_id"]}, {"$set": update_data})
+
+         # Send email notification
+        send_license_assignment_email(
+            recipient_email=data["recipient_email"],
+            license_type=license_entry["license_type"],
+            assigned_at=assigned_at,
+            initiator_email=license_entry["initiator_email"]
+        )
 
         return Response({"message": "License assigned successfully!"}, status=status.HTTP_201_CREATED)
 
